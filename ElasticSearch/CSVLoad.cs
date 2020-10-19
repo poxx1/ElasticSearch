@@ -7,13 +7,19 @@ namespace ElasticSearch
 {
     class CSVLoad
     {
-        public string cmdExectutor(string command)
+        public void cmdExectutor(string command)
         {
-            Process.Start("cmd.exe", command);
+            //El proceso queda clavado al transcurrir unos segundos
+            //Hay que solucionar para matar al proceso al cabo de un minuto y luego continuar.
+
+            Process.Start("cmd.exe","/C"+ command);
+            Console.WriteLine("Updateing ElasticDatabase with Logstash");
             var p = Process.GetCurrentProcess();
-            p.WaitForExit();
-            var result = p.ExitCode.ToString();
-            return result;
+            Console.WriteLine(p.ProcessName);
+
+            //p.WaitForExit();
+            //var result = p.ExitCode.ToString();
+            //return result;
         }
     }
 }

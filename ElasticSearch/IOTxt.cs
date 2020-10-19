@@ -24,6 +24,13 @@ namespace ElasticSearch
             sw.Write(textToWrite);
             sw.Close();
         }
+
+        public void Write(string textToWrite,string path)
+        {
+            StreamWriter sw = new StreamWriter(path);
+            sw.Write(textToWrite);
+            sw.Close();
+        }
     }
 }
 

@@ -50,6 +50,12 @@ namespace ElasticSearch
             return objeto;
         }
 
+        public object Insert(string query)
+        {
+
+            object ok=9;
+            return ok;
+        }
         public bool test()
         {
 

@@ -4,7 +4,7 @@ namespace ElasticSearch
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] parameters)
         {
             #region Intro Screen
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -31,6 +31,15 @@ namespace ElasticSearch
             //Console.WriteLine(r.response);
             Console.ForegroundColor = ConsoleColor.Cyan;
 
+            WatsonAssistant call = new WatsonAssistant();
+            var response = call.REST(parameters);
+            Console.WriteLine(response);
+            
+            //Insertar la data en Logstash
+            //string path = @"C:\Users\julian.lastra\Downloads\logstash\bin\logstash -f csv.conf";
+            //CSVLoad logstash = new CSVLoad();
+            //logstash.cmdExectutor(path);
+
             //Proceso de Extraccion de la informacion y guardado en un archivo de salida
 
             Serializer ser = new Serializer();
@@ -38,7 +47,9 @@ namespace ElasticSearch
             var json = textFile.Read();
             var server = ser.Deserialize(json);
             textFile.Write(server);
-
+            ser.WatsonDeserialize(response.ToString());
+            var respSerialized = "";
+            textFile.Write(respSerialized, @"C:\Users\julian.lastra\Desktop\Output.csv");
 
             //            b.test();
 
