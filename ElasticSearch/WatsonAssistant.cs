@@ -60,6 +60,7 @@ namespace ElasticSearch
                 {
                     //Message to send
                     Text = text
+                //    Text = "cr server"
                 }
                 );
 

@@ -4,6 +4,9 @@ using IBM.Watson.Assistant.v2.Model;
 using System;
 using System.Configuration;
 using System.Collections.Specialized;
+using IBM.Watson.Discovery.v1;
+using IBM.Watson.Discovery.v1.Model;
+using System.Collections.Generic;
 
 namespace ElasticSearch
 {
@@ -20,50 +23,44 @@ namespace ElasticSearch
             //IamAuthenticator authenticator = new IamAuthenticator(apikey: "D_nQRIAE4URpHN53bhMvgPQKfXPmOmAJhIbNQ86ZQdUV");
             IamAuthenticator authenticator = new IamAuthenticator(apikey: apikeyCfg);
 
-            AssistantService assistant = new AssistantService(versionCfg, authenticator);
+            DiscoveryService discovery = new DiscoveryService(versionCfg, authenticator);
+                
+            //discovery.SetServiceUrl(urlCfg);
 
-            assistant.SetServiceUrl(urlCfg);
+            discovery.SetServiceUrl("https://api.us-east.discovery.watson.cloud.ibm.com");
 
-            assistant.DisableSslVerification(true);
+            discovery.DisableSslVerification(true);
 
-            assistant.WithHeader("X-Watson-Learning-Opt-Out", "true");
+            discovery.WithHeader("X-Watson-Learning-Opt-Out", "true");
 
+            //Update Collection
+            //Paso 1. Leer Base de datos. Paso 2. Leer collections. Paso 3. Si es necesario, actualizar.
             try
             {
-                //Creo la session para poder iniciar el chat.
-                var result = assistant.CreateSession(
-                assistantId: assisntantIDCfg);
-
-                //La respuesta con el Session ID
-                //Console.WriteLine(result.Response+"\r\n\r\n");
-
-                var sessionId = result.Result.SessionId;
-
-                sessionId = result.Result.SessionId;
-
-                //Trabajo con los parametros de entrada
-                foreach (var p in parameters)
+                var expansions = new List<Expansion>()
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    //Console.WriteLine(p.ToString());
-                    Console.ForegroundColor = ConsoleColor.Cyan;
+                     new Expansion()
+                     {
+                         InputTerms = new List<string>()
+                         {
+                          "input-term"
+                         },
+                           ExpandedTerms = new List<string>()
+                           {
+                                  "expanded-term"
+                           }
+                     }
+                };
 
-                }
+                var result = discovery.CreateExpansions(
+                    environmentId: "{environmentId}",
+                    collectionId: "{collectionId}",
+                    expansions: expansions
+                    );
 
-                string text = "Blue";//parameters[0]; // "pregunta";
+                Console.WriteLine(result.Response);
+                return result.Response;
 
-                //Obtenido el sessionId envio el mensaje que recivo por parametro de ejecucion
-                var r = assistant.Message(
-                assistantId: assisntantIDCfg,
-                sessionId: "" + sessionId + "",
-                input: new MessageInput()
-                {
-                    //Message to send
-                    Text = text
-                }
-                );
-
-                return r.Response;
             }
             catch (Exception e)
             {

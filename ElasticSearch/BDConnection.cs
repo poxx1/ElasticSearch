@@ -9,7 +9,7 @@ namespace ElasticSearch
     {
         public object Consulta(string query)
         {
-            SqlConnection _conexion = new SqlConnection(@"Server=AR-NB-415\SQLEXPRESS; Initial Catalog=Bohemia;Integrated Security=True");
+            SqlConnection _conexion = new SqlConnection(@"Server=AR-NB-415\SQLEXPRESS; Initial Catalog=ElasticSearch;Integrated Security=True");
             var cmd = new SqlCommand(query, _conexion);
             var objeto = new object();
             var objeto1 = new object();
