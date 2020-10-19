@@ -17,6 +17,9 @@ namespace ElasticSearch
                 using (WebClient client = new WebClient())
                 {
                     response = client.DownloadString(url);
+
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Request Succesfull\r\n");
                 }
             }
             catch (Exception e)
@@ -36,6 +39,9 @@ namespace ElasticSearch
                     client.Headers[HttpRequestHeader.ContentType] = "application/json";
                     
                     response = client.DownloadString(url);
+
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Request Succesfull\r\n");
                 }
             }
             catch (Exception e)
