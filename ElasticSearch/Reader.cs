@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ElasticSearch
 {
-    class CSVLoad
+    class Reader
     {
         public void cmdExectutor(string command)
         {

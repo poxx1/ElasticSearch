@@ -7,7 +7,7 @@ namespace ElasticSearch
 {
     class BDConnection
     {
-        public object Consulta(string query)
+        public string[] Consulta(string query)
         {
             SqlConnection _conexion = new SqlConnection(@"Server=AR-NB-415\SQLEXPRESS; Initial Catalog=ElasticSearch;Integrated Security=True");
             var cmd = new SqlCommand(query, _conexion);
@@ -26,6 +26,9 @@ namespace ElasticSearch
                 throw e;
             }
 
+            string[] server = new string[2];
+            
+
             //Ejecuto la consulta
             try
             {
@@ -35,9 +38,14 @@ namespace ElasticSearch
                     {
                         while (dr.Read())
                         {
-                            objeto = dr[counter];
-                            counter++;
+                            server[0] = dr[0].ToString();
+                            server[1] = dr[1].ToString();
+                            //counter++;
                         }
+                    }
+                    else
+                    {
+                        server[0] = "No existen ocurrencias para el server";        
                     }
             }
             catch (Exception e)
@@ -47,12 +55,11 @@ namespace ElasticSearch
 
             _conexion.Close();
 
-            return objeto;
+            return server;
         }
 
         public object Insert(string query)
         {
-
             object ok=9;
             return ok;
         }
