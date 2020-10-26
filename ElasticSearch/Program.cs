@@ -19,7 +19,13 @@ namespace ElasticSearch
 
             Requests r = new Requests();
             BDConnection b = new BDConnection();
+            WatsonDiscovery wd = new WatsonDiscovery();
+
+            //tengo que pasarle parametros en string[];
+            var test = new string[] { "a", "b", "c" };
+            wd.REST(test);
             
+
             //r.url = "http://localhost:9200/";
             //r.response = r.get();
             //Console.ForegroundColor = ConsoleColor.Blue;

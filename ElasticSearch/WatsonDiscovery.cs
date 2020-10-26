@@ -1,12 +1,12 @@
 ﻿using IBM.Cloud.SDK.Core.Authentication.Iam;
-using IBM.Watson.Assistant.v2;
-using IBM.Watson.Assistant.v2.Model;
 using System;
 using System.Configuration;
 using System.Collections.Specialized;
 using IBM.Watson.Discovery.v1;
 using IBM.Watson.Discovery.v1.Model;
 using System.Collections.Generic;
+using IBM.Cloud.SDK.Core.Http;
+using System.IO;
 
 namespace ElasticSearch
 {
@@ -14,10 +14,13 @@ namespace ElasticSearch
     {
         public object REST(string[] parameters)
         {
-            string urlCfg = ((NameValueCollection)ConfigurationManager.GetSection("Watson/Chat"))["URL"];
-            string apikeyCfg = ((NameValueCollection)ConfigurationManager.GetSection("Watson/Chat"))["APIKey"];
-            string versionCfg = ((NameValueCollection)ConfigurationManager.GetSection("Watson/Chat"))["Version"];
-            string assisntantIDCfg = ((NameValueCollection)ConfigurationManager.GetSection("Watson/Chat"))["AssistantID"];
+            string urlCfg = ((NameValueCollection)ConfigurationManager.GetSection("Watson/Discovery"))["URL"];
+            string apikeyCfg = ((NameValueCollection)ConfigurationManager.GetSection("Watson/Discovery"))["APIKey"];
+            string versionCfg = ((NameValueCollection)ConfigurationManager.GetSection("Watson/Discovery"))["Version"];
+            string collectionCfg = ((NameValueCollection)ConfigurationManager.GetSection("Watson/Discovery"))["CollectionID"];
+            string configCfg = ((NameValueCollection)ConfigurationManager.GetSection("Watson/Discovery"))["ConfigurationID"];
+            string environmentCfg = ((NameValueCollection)ConfigurationManager.GetSection("Watson/Discovery"))["environmentID"];
+            string docPathCfg = ((NameValueCollection)ConfigurationManager.GetSection("Watson/Discovery"))["documentPath"];
 
             //Headers + Auth
             //IamAuthenticator authenticator = new IamAuthenticator(apikey: "D_nQRIAE4URpHN53bhMvgPQKfXPmOmAJhIbNQ86ZQdUV");
@@ -30,38 +33,37 @@ namespace ElasticSearch
             discovery.SetServiceUrl("https://api.us-east.discovery.watson.cloud.ibm.com");
 
             discovery.DisableSslVerification(true);
-
+            
             discovery.WithHeader("X-Watson-Learning-Opt-Out", "true");
 
+            try 
+            { 
             //Update Collection
             //Paso 1. Leer Base de datos. Paso 2. Leer collections. Paso 3. Si es necesario, actualizar.
-            try
+            DetailedResponse<DocumentAccepted> result;
+           
+            using (FileStream fs = File.OpenRead(docPathCfg))
             {
-                var expansions = new List<Expansion>()
+                using (MemoryStream ms = new MemoryStream())
                 {
-                     new Expansion()
-                     {
-                         InputTerms = new List<string>()
-                         {
-                          "input-term"
-                         },
-                           ExpandedTerms = new List<string>()
-                           {
-                                  "expanded-term"
-                           }
-                     }
-                };
-
-                var result = discovery.CreateExpansions(
-                    environmentId: "{environmentId}",
-                    collectionId: "{collectionId}",
-                    expansions: expansions
-                    );
-
-                Console.WriteLine(result.Response);
-                return result.Response;
-
+                    fs.CopyTo(ms);
+                        result = discovery.UpdateDocument(
+                            environmentId: environmentCfg,
+                            collectionId: collectionCfg,
+                            documentId: "60cfb35af09ec627db63c7568ae63998",
+                            file: ms,
+                            filename: "servers.csv",
+                            fileContentType: "text/html",
+                            metadata: "{ \"Creator\": \"Julian Lastra\", \"Subject\": \"Update\" }"
+                            );
+                }
             }
+
+            Console.WriteLine(result.Response);
+            
+            return result.Response;
+
+        }
             catch (Exception e)
             {
                 Console.WriteLine(e);
