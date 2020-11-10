@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RestSharp;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -30,6 +31,16 @@ namespace ElasticSearch
             return response;
         }
 
+        public string getRest()
+        {
+            var client = new RestClient("http://elkcl.tsoftglobal.com:9200");
+            client.Timeout = -1;
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("Authorization", "Basic bWlrZTpNaWtlMjAyMA==");
+            IRestResponse response = client.Execute(request);
+            Console.WriteLine("\r\nElastic Search: Conexion exitosa!");
+            return response.Content;
+        }
         public string post()
         {
             try

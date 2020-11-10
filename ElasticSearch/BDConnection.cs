@@ -26,7 +26,7 @@ namespace ElasticSearch
                 throw e;
             }
 
-            string[] server = new string[2];
+            string[] server = new string[4];
             
 
             //Ejecuto la consulta
@@ -40,6 +40,8 @@ namespace ElasticSearch
                         {
                             server[0] = dr[0].ToString();
                             server[1] = dr[1].ToString();
+                            server[2] = dr[1].ToString();
+                            server[3] = dr[1].ToString();
                             //counter++;
                         }
                     }

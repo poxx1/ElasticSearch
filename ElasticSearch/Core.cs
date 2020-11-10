@@ -18,7 +18,6 @@ namespace ElasticSearch
 
         //1. Leo el archivo de texto actualizado.
         #region Text Document
-
         public void TextManager()
         {
             //Cambiar por el app.config XML
@@ -52,7 +51,9 @@ namespace ElasticSearch
                     listServers.Add(new Servers
                     {
                         Name = line.Split(';')[0],
-                        Status = line.Split(';')[1]
+                        Status = line.Split(';')[1],
+                        Usage = Convert.ToString(line.Split(';'))[2],
+                        IP = line.Split(';')[3]
                     }
                     );
                 }
@@ -64,43 +65,44 @@ namespace ElasticSearch
 
             foreach (var item in listServers)
             {
-                Select(item.Name, item.Status);
+                Select(item.Name, item.Status,item.IP,item.Usage);
             }
         }
 
         #endregion
 
         //Pregunto a la base de datos si existe el actual
-        public void Select(string name,string status)
+        public void Select(string name,string status,string ip, int usage)
         { 
-            var response = select.Consulta("SELECT * FROM Servers WHERE name = '"+name+"'");
+            var response = select.Consulta("SELECT * FROM ServersV3 WHERE name = '"+name+"'");
             //si respuesta ok, exist = true, else not  if(select)
             if (response[1] != null)
             {
                 //Ejecutar update.
                 Update(response[0],status);
-                Console.WriteLine("STATEMENT UPDATED");
+                //Console.WriteLine("SQL DB: la base de datos fue actualizada correctamente");
             }
             else
             {
                 //Si no encuentro ocurrencias inserto el nuevo server en la base de datos
-                Insert(name, status);
+                Insert(name, status,ip,usage);
             }
             
         }
 
         //Select * from Servers Where updated=false;
        
-        public void Insert(string name,string status)
+        public void Insert(string name,string status,string IP,int usage)
         {
             //Inserto 1 a 1 los servidores
-            insert.Consulta("INSERT into Servers (Name,Status) VALUES ('"+name+"','"+status+"')");
+            insert.Consulta("INSERT into ServersV3 (Name,Status,IP,Disk_Usage) VALUES ('"+name+"','"+status+"','"+usage+"','"+IP+"')");
         }
         //Escribir en la base de datos nuevas ocurrencias
 
         public void Update(string name, string status)
         {
             update.Consulta("Update Servers SET Status = '"+status+"' WHERE Name = '"+name+"'");
+            Console.WriteLine("\r\nSQL DB: la base de datos fue actualizada correctamente");
         }
     }
 }

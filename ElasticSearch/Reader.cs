@@ -13,7 +13,7 @@ namespace ElasticSearch
             //Hay que solucionar para matar al proceso al cabo de un minuto y luego continuar.
 
             Process.Start("cmd.exe","/C"+ command);
-            Console.WriteLine("Updateing ElasticDatabase with Logstash");
+            Console.WriteLine("\r\nActualizando la base de datos de Elastic con logStash");
             var p = Process.GetCurrentProcess();
             Console.WriteLine(p.ProcessName);
 

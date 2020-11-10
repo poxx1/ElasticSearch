@@ -10,6 +10,9 @@ namespace ElasticSearch
         public string Name { get; set; }
         public string Status { get; set; }
         public string _id { get; set; }
+        public int Usage { get; set; }
+        public string IP { get; set; }
+
 
     }
 }

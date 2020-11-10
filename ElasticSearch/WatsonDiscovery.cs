@@ -59,13 +59,14 @@ namespace ElasticSearch
                 }
             }
 
-            Console.WriteLine(result.Response);
+            Console.WriteLine("\r\nWatson Discovery: La informacion se cargo exitosamente.");
             
             return result.Response;
 
         }
             catch (Exception e)
             {
+                Console.WriteLine("No se pudo realizar la carga en Watson Discovery");
                 Console.WriteLine(e);
                 return "Cant send request";
             }
