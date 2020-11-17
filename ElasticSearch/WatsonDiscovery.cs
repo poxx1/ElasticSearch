@@ -50,7 +50,7 @@ namespace ElasticSearch
                         result = discovery.UpdateDocument(
                             environmentId: environmentCfg,
                             collectionId: collectionCfg,
-                            documentId: "60cfb35af09ec627db63c7568ae63998",
+                            documentId: "b1f48973841ad9d201843f69f0198f63_1",
                             file: ms,
                             filename: "servers.csv",
                             fileContentType: "text/html",
