@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CredentialManagement" Version="1.0.2" />
     <PackageReference Include="Elasticsearch.Net" Version="7.9.0" />
     <PackageReference Include="IBM.Watson.Assistant.v2" Version="4.6.0" />
     <PackageReference Include="IBM.Watson.Discovery.v1" Version="4.6.0" />
