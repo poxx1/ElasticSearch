@@ -21,15 +21,16 @@ namespace ElasticSearch
             string configCfg = ((NameValueCollection)ConfigurationManager.GetSection("Watson/Discovery"))["ConfigurationID"];
             string environmentCfg = ((NameValueCollection)ConfigurationManager.GetSection("Watson/Discovery"))["environmentID"];
             string docPathCfg = ((NameValueCollection)ConfigurationManager.GetSection("Watson/Discovery"))["documentPath"];
+            string docIdCFG = ((NameValueCollection)ConfigurationManager.GetSection("Watson/Discovery"))["documentID"];
+            string ibmUserCFG = ((NameValueCollection)ConfigurationManager.GetSection("Watson/Discovery"))["userIBM"];
+            string fileNameCFG = ((NameValueCollection)ConfigurationManager.GetSection("Watson/Discovery"))["documentName"];
 
             //Headers + Auth
             //IamAuthenticator authenticator = new IamAuthenticator(apikey: "D_nQRIAE4URpHN53bhMvgPQKfXPmOmAJhIbNQ86ZQdUV");
             IamAuthenticator authenticator = new IamAuthenticator(apikey: apikeyCfg);
 
             DiscoveryService discovery = new DiscoveryService(versionCfg, authenticator);
-                
-            //discovery.SetServiceUrl(urlCfg);
-
+            
             discovery.SetServiceUrl("https://api.us-east.discovery.watson.cloud.ibm.com");
 
             discovery.DisableSslVerification(true);
@@ -50,11 +51,11 @@ namespace ElasticSearch
                         result = discovery.UpdateDocument(
                             environmentId: environmentCfg,
                             collectionId: collectionCfg,
-                            documentId: "b1f48973841ad9d201843f69f0198f63_1",
+                            documentId: docIdCFG,
                             file: ms,
-                            filename: "servers.csv",
+                            filename: fileNameCFG,
                             fileContentType: "text/html",
-                            metadata: "{ \"Creator\": \"Julian Lastra\", \"Subject\": \"Update\" }"
+                            metadata: "{ \"Creator\": \""+ibmUserCFG+"\", \"Subject\": \"Update\" }"
                             );
                 }
             }
