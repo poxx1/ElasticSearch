@@ -12,6 +12,7 @@
     <PackageReference Include="IBM.Watson.Discovery.v1" Version="4.6.0" />
     <PackageReference Include="IBM.WatsonDeveloperCloud.Discovery.v1" Version="2.17.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.8.0-5.final" />
+    <PackageReference Include="Microsoft.Exchange.WebServices" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="RestSharp" Version="106.11.8-alpha.0.7" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />

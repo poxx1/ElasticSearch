@@ -27,6 +27,14 @@ namespace ElasticSearch
             Username = cd.Username;
             Password = cd.Password;
         }
+
+        public void Email()
+        {
+            cd.Target = "email";
+            cd.Load();
+            Username = cd.Username;
+            Password = cd.Password;
+        }
     }
 }
 

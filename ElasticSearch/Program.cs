@@ -24,17 +24,20 @@ namespace ElasticSearch
 
             while (true)
             {
+                Email email = new Email();
+                email.Send("Email Automation Test","Test: Sending.","julian.lastra@tsoftlatam.com");
+
                 //1.Actualizar base de datos
-                cr.TextManager();
-                cr.Select("SV IQ Bot", "OK", "192.268.0.1", 83);
+                //cr.TextManager();
+                //cr.Select("SV IQ Bot", "OK", "192.268.0.1", 83);
 
                 //2.Actualizar Watson Discovery
-                var test = new string[] { "a", "b", "c" };
-                wd.REST(test);
+                //var test = new string[] { "a", "b", "c" };
+                //wd.REST(test);
 
                 //3.Testing de la conexion con ElasticSearch
-                r.url = "http://elkcl.tsoftglobal.com:9200";
-                r.response = r.getRest();
+                //r.url = "http://elkcl.tsoftglobal.com:9200";
+                //r.response = r.getRest();
                 Console.ForegroundColor = ConsoleColor.Blue;
                 //Console.WriteLine(r.response);
                 Console.ForegroundColor = ConsoleColor.Cyan;
